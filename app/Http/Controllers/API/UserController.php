@@ -62,6 +62,7 @@ class UserController extends Controller
     {
         try {
             Session::flush();
+            Auth::guard('web')->logout();
             $success = true;
             $message = 'Successfully logged out';
         } catch (Exception $ex) {
