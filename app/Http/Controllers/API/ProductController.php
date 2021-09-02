@@ -5,51 +5,53 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Auth;
 
 class ProductController extends Controller
 {
-    // all books
+    // all products
     public function index()
     {
-        $books = Product::all()->toArray();
-        return array_reverse($books);
+        $products = Product::where('user_id', '=', Auth::id())->get()->toArray();
+        return array_reverse($products);
     }
 
-    // add book
+    // add product
     public function add(Request $request)
     {
         $file = '';
-        $book = new Product([
+        $product = new Product([
+            'user_id' => Auth::id(),
             'name' => $request->name,
             'manufacture_year' => $request->manufacture_year,
             'photo' => $file
         ]);
-        $book->save();
+        $product->save();
 
         return response()->json('The product successfully added');
     }
 
-    // edit book
+    // edit product
     public function edit($id)
     {
-        $book = Product::find($id);
-        return response()->json($book);
+        $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id())->get();
+        return response()->json($product);
     }
 
-    // update book
+    // update product
     public function update($id, Request $request)
     {
-        $book = Product::find($id);
-        $book->update($request->all());
+        $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id());
+        $product->update($request->all());
 
         return response()->json('The product successfully updated');
     }
 
-    // delete book
+    // delete product
     public function delete($id)
     {
-        $book = Product::find($id);
-        $book->delete();
+        $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id());
+        $product->delete();
 
         return response()->json('The product successfully deleted');
     }

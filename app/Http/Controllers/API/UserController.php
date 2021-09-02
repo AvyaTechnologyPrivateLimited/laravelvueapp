@@ -61,7 +61,6 @@ class UserController extends Controller
     public function logout()
     {
         try {
-         
             Session::flush();
             $success = true;
             $message = 'Successfully logged out';

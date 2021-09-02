@@ -18,7 +18,6 @@ export default {
         }
     },
     beforeRouteEnter(to, from, next) {
-        console.log(window.Laravel)
         if (!window.Laravel.isLoggedin) {
             window.location.href = "/";
         }
