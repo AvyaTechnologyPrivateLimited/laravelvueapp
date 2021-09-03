@@ -9,7 +9,9 @@
 
                 <div class="alert alert-danger" role="alert" v-if="errors2.length">
                     <div v-for="(v, k) in errors2" :key="k">
-                        <p v-for="error in v" :key="error" >{{ error }}</p>
+                        <p v-for="error in v" :key="error" >
+                            <p v-for="i in error" :key="i">{{ i }}</p>
+                        </p>
                     </div>
                 </div>
 
@@ -54,8 +56,8 @@ export default {
         return {
             email: "",
             password: "",
-            errors: {},
-            errors2: {}
+            errors: [],
+            errors2: []
         }
     },
     methods: {
@@ -90,6 +92,7 @@ export default {
                             this.$router.go('/dashboard')
                         } else {
                             this.errors2.push(response.data.message)
+                            console.log(this.errors2);
                             return false;
                         }
                     })

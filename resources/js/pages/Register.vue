@@ -9,7 +9,9 @@
 
                 <div class="alert alert-danger" role="alert" v-if="errors2.length">
                     <div v-for="(v, k) in errors2" :key="k">
-                        <p v-for="error in v" :key="error" >{{ error }}</p>
+                        <p v-for="error in v" :key="error" >
+                            <p v-for="i in error" :key="i">{{ i }}</p>
+                        </p>
                     </div>
                 </div>
 
@@ -71,6 +73,7 @@ export default {
         handleSubmit(e) {
             e.preventDefault()
             this.errors = [];
+            this.errors2 = [];
             if (!this.name || !this.email || !this.password) {
                 this.errors.push('All fields are required.');
                 return false;

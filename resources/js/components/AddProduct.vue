@@ -5,9 +5,19 @@
             <div class="col-md-6">
                 
                 <form @submit.prevent="addProduct" enctype="multipart/form-data">
+
                     <div class="alert alert-danger" role="alert" v-if="errors.length">
                         <li v-for="error in errors" :key="error.id">{{ error }}</li>
                     </div>
+
+                    <div class="alert alert-danger" role="alert" v-if="errors2.length">
+                        <div v-for="(v, k) in errors2" :key="k">
+                            <p v-for="error in v" :key="error" >
+                                <p v-for="i in error" :key="i">{{ i }}</p>
+                            </p>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Name&nbsp;<span class="red">*</span></label>
                         <input type="text" name="name" class="form-control" v-model="name">
@@ -35,6 +45,7 @@ export default {
         return {
             product: {},
             errors: {},
+            errors2: {},
             image: '',
             isSubmitting: false,
         }
@@ -47,6 +58,7 @@ export default {
             e.preventDefault()
             this.isSubmitting = true
             this.errors = [];
+            this.errors2 = [];
             if (!this.name){
                 this.errors.push('Name field is required.');
                 this.isSubmitting = false
@@ -102,7 +114,7 @@ export default {
                         if (response.data.success) {
                             this.$router.push({name: 'products'})
                         } else {
-                            this.errors = response.data.message
+                            this.errors2.push(response.data.message)
                         }
                         
                     })
