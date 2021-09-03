@@ -5,22 +5,41 @@
         </div>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="collapse navbar-collapse">
-                <!-- for logged-in user-->
-                <div class="navbar-nav" v-if="isLoggedIn">
-                    <router-link to="/dashboard" class="nav-item nav-link">Dashboard</router-link>
-                    <router-link to="/products" class="nav-item nav-link">Products</router-link>
-                    <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
-                </div>
-                <!-- for non-logged user-->
-                <div class="navbar-nav" v-else>
-                    <router-link to="/" class="nav-item nav-link">Home</router-link>
-                    <router-link to="/login" class="nav-item nav-link">login</router-link>
-                    <router-link to="/register" class="nav-item nav-link">Register
-                    </router-link>
-                </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <ul class="navbar-nav mr-auto" v-if="isLoggedIn">
+                    <li class="nav-item ">
+                        <router-link to="/dashboard" class="nav-item nav-link">Dashboard</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/products" class="nav-item nav-link">Products</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-item nav-link" style="cursor: pointer;" @click="logout">Logout</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav mr-auto" v-else>
+                    <li class="nav-item ">
+                        <router-link to="/" class="nav-item nav-link">Home</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/login" class="nav-item nav-link">login</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/register" class="nav-item nav-link">Register
+                        </router-link>
+                    </li>
+                </ul>
+    
             </div>
         </nav>
+
+       
         <br/>
         <router-view/>
     </div>
