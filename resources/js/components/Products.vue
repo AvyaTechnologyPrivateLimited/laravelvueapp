@@ -23,9 +23,6 @@
                 <td>{{ product.manufacture_year }}</td>
                 <td>
                     <img class="full" v-bind:src="product.photo" width="80"  />
-
-
-                    
                 </td>
                 <td>{{ product.created_at }}</td>
                 <td>{{ product.updated_at }}</td>

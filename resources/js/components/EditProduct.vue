@@ -1,5 +1,6 @@
 <template>
     <div>
+        <div class="loader" v-if="loader"></div>
         <h4 class="text-center">Edit Product</h4>
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -19,7 +20,7 @@
                         <label>Image</label>
                         <input type="file" name="image" class="form-control" v-on:change="onImageChange">
                     </div><br>
-                    <button type="submit" class="btn btn-primary">Update Product</button>
+                    <button :disabled="isSubmitting" type="submit" class="btn btn-primary">Update Product</button>
                 </form>
             </div>
         </div>
@@ -33,6 +34,7 @@ export default {
             product: {},
             errors: {},
             image: '',
+            loader: false,
         }
     },
     created() {
@@ -54,6 +56,8 @@ export default {
         },
         updateProduct(e) {
             e.preventDefault()
+            this.isSubmitting = true
+            this.loader = true;
             this.errors = [];
             if (!this.product.name || !this.product.manufacture_year){
                 this.errors.push('Name and Manufactured Year fields are required.');
@@ -113,3 +117,22 @@ export default {
     }
 }
 </script>
+<style scoped>
+    loader {
+        position: absolute;
+        left:50%;
+        top:50%;
+        transform: translate(-50%, -50%);
+        border: 10px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 75px;
+        height: 75px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style> 
