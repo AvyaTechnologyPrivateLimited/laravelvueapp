@@ -4,7 +4,7 @@
             <div class="col-md-8">
 
                 <div class="alert alert-danger" role="alert" v-if="errors.length">
-                    {{ errors }}
+                    <li v-for="error in errors" :key="error.id">{{ error }}</li>
                 </div>
 
                 <div class="card card-default">
