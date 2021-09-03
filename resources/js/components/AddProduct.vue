@@ -19,7 +19,7 @@
                         <label>Image</label>
                         <input type="file" name="image" class="form-control" v-on:change="onImageChange">
                     </div><br>
-                    <button type="submit" class="btn btn-primary">Add Product</button>
+                    <button :disabled="isSubmitting" type="submit"  class="btn btn-primary">Add Product</button>
                 </form>
             </div>
         </div>
@@ -33,6 +33,7 @@ export default {
             product: {},
             errors: {},
             image: '',
+            isSubmitting: false
             
         }
     },
@@ -42,6 +43,7 @@ export default {
         },
         addProduct(e) {
             e.preventDefault()
+            this.isSubmitting = true
             this.errors = [];
             if (!this.name || !this.manufacture_year){
                 this.errors.push('Name and Manufacture Year fields are required.');
@@ -54,7 +56,7 @@ export default {
             }
 
             if (this.manufacture_year <= 1990 || this.manufacture_year >= 2021){
-                this.errors.push('Manufacture Year must between 1990 and present');
+                this.errors.push('Manufacture Year must be between 1990 and present');
                 return false;
             } 
             
