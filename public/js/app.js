@@ -22621,11 +22621,6 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      if (this.password.length < 6 || this.password.length > 20) {
-        this.errors.push('Password field must be between 6 to 20 char long');
-        return false;
-      }
-
       if (this.password.length > 0) {
         this.$axios.get('/sanctum/csrf-cookie').then(function (response) {
           _this.$axios.post('api/login', {
