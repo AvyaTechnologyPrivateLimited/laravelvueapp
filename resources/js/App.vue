@@ -51,6 +51,7 @@ export default {
     data() {
         return {
             isLoggedIn: false,
+
         }
     },
     created() {
@@ -58,7 +59,7 @@ export default {
             this.isLoggedIn = true
         }
     },
-    methods: {
+    methods: {   
         logout(e) {
             console.log('ss')
             e.preventDefault()
