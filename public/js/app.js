@@ -22246,6 +22246,12 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
+      if (this.image.size > 1024 * 1024 * 2) {
+        e.preventDefault();
+        this.errors.push('File Size can not be taken more than 2MB');
+        return false;
+      }
+
       var currentObj = this;
       var config = {
         headers: {
@@ -22348,6 +22354,12 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.manufacture_year <= 1900 || this.manufacture_year >= 2021) {
         this.errors.push('Manufacture Year must be between 1990 and present');
+        return false;
+      }
+
+      if (this.image.size > 1024 * 1024 * 2) {
+        e.preventDefault();
+        this.errors.push('File Size can not be taken more than 2MB');
         return false;
       }
 

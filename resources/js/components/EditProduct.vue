@@ -72,6 +72,12 @@ export default {
                 return false;
             } 
 
+            if (this.image.size > 1024 * 1024 * 2) {
+                e.preventDefault();
+                this.errors.push('File Size can not be taken more than 2MB');
+                return false;
+            }
+
             let currentObj = this;
             const config = {
                 headers: { 'content-type': 'multipart/form-data' }
