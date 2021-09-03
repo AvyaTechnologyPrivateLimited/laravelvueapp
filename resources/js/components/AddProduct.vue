@@ -28,7 +28,7 @@
                     </div><br>
                     <div class="form-group">
                         <label>Image</label>
-                        <input type="file" name="image" class="form-control" v-on:change="onImageChange">
+                        <input type="file"  name="image" class="form-control" v-on:change="onImageChange">
                     </div><br>
                     <button :disabled="isSubmitting" type="submit"  class="btn btn-primary">Add Product
                         
@@ -53,8 +53,8 @@ export default {
     methods: {
         onImageChange(e){
             this.image = e.target.files[0];
-            alert(this.image.extention);
-            return false;
+            // alert(this.image.type);
+            // return false;
         },
         addProduct(e) {
             e.preventDefault()
@@ -91,15 +91,20 @@ export default {
                 return false;
             }
 
-            this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
-            if(!this.type.some(data => data.id === this.image.type)){
-                e.preventDefault();
+            // this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
+            // if(!this.type.some(data => data.id === this.image.type)){
+            //     e.preventDefault();
+            //     this.errors.push('File type must be jpg, jpeg, png');
+            //     this.isSubmitting = false
+            //     return false;      
+            // }
+
+            if(this.image.type != 'image/png' || this.image.type != 'image/jpeg') {
                 this.errors.push('File type must be jpg, jpeg, png');
                 this.isSubmitting = false
-                return false;      
-            }
-
-           
+                return false;
+            }  
+            
             let currentObj = this;
             const config = {
                 headers: { 'content-type': 'multipart/form-data' }
@@ -117,6 +122,7 @@ export default {
                             this.$router.push({name: 'products'})
                         } else {
                             this.errors2.push(response.data.message)
+                            this.isSubmitting = false
                         }
                         
                     })

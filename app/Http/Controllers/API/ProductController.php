@@ -24,6 +24,7 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
 	        'name' => ['required', 'unique:products,name'],
 	        'manufacture_year' => ['required'],
+            'image' => ['mimes:jpg,jpeg,png']
 	    ]);
 
 	    if($validator->fails()) {
@@ -69,6 +70,7 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
 	        'name' => ['required'],
 	        'manufacture_year' => ['required'],
+            'image' => ['mimes:jpg,jpeg,png']
 	    ]);
 
 	    if($validator->fails()) {

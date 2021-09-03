@@ -22223,9 +22223,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onImageChange: function onImageChange(e) {
-      this.image = e.target.files[0];
-      alert(this.image.extention);
-      return false;
+      this.image = e.target.files[0]; // alert(this.image.type);
+      // return false;
     },
     addProduct: function addProduct(e) {
       var _this = this;
@@ -22264,14 +22263,16 @@ __webpack_require__.r(__webpack_exports__);
         this.errors.push('File Size can not be taken more than 2MB');
         this.isSubmitting = false;
         return false;
-      }
+      } // this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
+      // if(!this.type.some(data => data.id === this.image.type)){
+      //     e.preventDefault();
+      //     this.errors.push('File type must be jpg, jpeg, png');
+      //     this.isSubmitting = false
+      //     return false;      
+      // }
 
-      this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
 
-      if (!this.type.some(function (data) {
-        return data.id === _this.image.type;
-      })) {
-        e.preventDefault();
+      if (this.image.type != 'image/png' || this.image.type != 'image/jpeg') {
         this.errors.push('File type must be jpg, jpeg, png');
         this.isSubmitting = false;
         return false;
@@ -22295,6 +22296,8 @@ __webpack_require__.r(__webpack_exports__);
             });
           } else {
             _this.errors2.push(response.data.message);
+
+            _this.isSubmitting = false;
           }
         })["catch"](function (error) {
           console.error(error);
@@ -22392,18 +22395,19 @@ __webpack_require__.r(__webpack_exports__);
         this.errors.push('File Size can not be taken more than 2MB');
         this.isSubmitting = false;
         return false;
-      }
+      } // this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
+      // if(!this.type.some(data => data.id === this.image.type)){
+      //     e.preventDefault();
+      //     this.errors.push('File type must be jpg, jpeg, png');
+      //     this.isSubmitting = false
+      //     return false;      
+      // }
+      // if(this.image.type !== 'image/png' || this.image.type !== 'image/jpeg') {
+      //     this.errors.push('File type must be jpg, jpeg, png');
+      //     this.isSubmitting = false
+      //     return false;
+      // }
 
-      this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
-
-      if (!this.type.some(function (data) {
-        return data.id === _this2.image.type;
-      })) {
-        e.preventDefault();
-        this.errors.push('File type must be jpg, jpeg, png');
-        this.isSubmitting = false;
-        return false;
-      }
 
       var currentObj = this;
       var config = {
@@ -22422,8 +22426,9 @@ __webpack_require__.r(__webpack_exports__);
               name: 'products'
             });
           } else {
-            _this2.errors2.push(response.data.message); //console.log(this.errors);
+            _this2.errors2.push(response.data.message);
 
+            _this2.isSubmitting = false; //console.log(this.errors);
           }
         })["catch"](function (errors) {
           console.error(errors);
@@ -22472,8 +22477,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       products: [],
       'fullWidthImage': false,
-      success: [],
-      isSubmitting: false
+      success: []
     };
   },
   created: function created() {
@@ -22496,7 +22500,6 @@ __webpack_require__.r(__webpack_exports__);
     deleteProduct: function deleteProduct(id) {
       var _this2 = this;
 
-      this.isSubmitting = true;
       this.$axios.get('/sanctum/csrf-cookie').then(function (response) {
         _this2.$axios["delete"]("/api/products/delete/".concat(id)).then(function (response) {
           if (response.data.success) {
@@ -23258,7 +23261,7 @@ var _hoisted_8 = {
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Edit ");
 
-var _hoisted_10 = ["disabled", "onClick"];
+var _hoisted_10 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
 
@@ -23301,7 +23304,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
     , ["to"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      disabled: $data.isSubmitting,
       "class": "btn btn-danger",
       onClick: function onClick($event) {
         return $options.deleteProduct(product.id);
