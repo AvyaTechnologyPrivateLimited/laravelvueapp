@@ -14,7 +14,7 @@
                             <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
                                 <div class="col-md-6">
-                                    <input required id="email" type="email" class="form-control" v-model="email" required
+                                    <input required id="email" type="email" class="form-control" v-model="email" 
                                            autofocus autocomplete="off">
                                 </div>
                             </div><br>
@@ -23,7 +23,7 @@
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                                 <div class="col-md-6">
                                     <input required id="password" type="password" class="form-control" v-model="password"
-                                           required autocomplete="off">
+                                            autocomplete="off">
                                 </div>
                             </div><br>
 
