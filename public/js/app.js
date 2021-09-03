@@ -22263,19 +22263,6 @@ __webpack_require__.r(__webpack_exports__);
         this.errors.push('File Size can not be taken more than 2MB');
         this.isSubmitting = false;
         return false;
-      } // this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
-      // if(!this.type.some(data => data.id === this.image.type)){
-      //     e.preventDefault();
-      //     this.errors.push('File type must be jpg, jpeg, png');
-      //     this.isSubmitting = false
-      //     return false;      
-      // }
-
-
-      if (this.image.type != 'image/png' || this.image.type != 'image/jpeg') {
-        this.errors.push('File type must be jpg, jpeg, png');
-        this.isSubmitting = false;
-        return false;
       }
 
       var currentObj = this;
@@ -22395,19 +22382,7 @@ __webpack_require__.r(__webpack_exports__);
         this.errors.push('File Size can not be taken more than 2MB');
         this.isSubmitting = false;
         return false;
-      } // this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
-      // if(!this.type.some(data => data.id === this.image.type)){
-      //     e.preventDefault();
-      //     this.errors.push('File type must be jpg, jpeg, png');
-      //     this.isSubmitting = false
-      //     return false;      
-      // }
-      // if(this.image.type !== 'image/png' || this.image.type !== 'image/jpeg') {
-      //     this.errors.push('File type must be jpg, jpeg, png');
-      //     this.isSubmitting = false
-      //     return false;
-      // }
-
+      }
 
       var currentObj = this;
       var config = {

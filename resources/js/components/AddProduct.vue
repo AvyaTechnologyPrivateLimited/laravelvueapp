@@ -90,8 +90,6 @@ export default {
                 this.isSubmitting = false
                 return false;
             }
-
-           
             
             let currentObj = this;
             const config = {
