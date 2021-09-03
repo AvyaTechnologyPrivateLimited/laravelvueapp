@@ -22256,6 +22256,17 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
+      this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
+
+      if (!this.type.some(function (data) {
+        return data.id === _this.image.type;
+      })) {
+        e.preventDefault();
+        this.errors.push('File type must be jpg, jpeg, png');
+        this.isSubmitting = false;
+        return false;
+      }
+
       var currentObj = this;
       var config = {
         headers: {
@@ -22367,6 +22378,17 @@ __webpack_require__.r(__webpack_exports__);
       if (this.image.size > 1024 * 1024 * 2) {
         e.preventDefault();
         this.errors.push('File Size can not be taken more than 2MB');
+        this.isSubmitting = false;
+        return false;
+      }
+
+      this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
+
+      if (!this.type.some(function (data) {
+        return data.id === _this2.image.type;
+      })) {
+        e.preventDefault();
+        this.errors.push('File type must be jpg, jpeg, png');
         this.isSubmitting = false;
         return false;
       }
