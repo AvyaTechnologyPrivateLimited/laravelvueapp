@@ -3,7 +3,7 @@
         <h4 class="text-center">Add Product</h4>
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="loader" v-if="loader"></div>
+                
                 <form @submit.prevent="addProduct" enctype="multipart/form-data">
                     <div class="alert alert-danger" role="alert" v-if="errors.length">
                         <li v-for="error in errors" :key="error.id">{{ error }}</li>
@@ -20,7 +20,9 @@
                         <label>Image</label>
                         <input type="file" name="image" class="form-control" v-on:change="onImageChange">
                     </div><br>
-                    <button :disabled="isSubmitting" type="submit"  class="btn btn-primary">Add Product</button>
+                    <button :disabled="isSubmitting" type="submit"  class="btn btn-primary">Add Product
+                        
+                    </button>
                 </form>
             </div>
         </div>
@@ -35,7 +37,6 @@ export default {
             errors: {},
             image: '',
             isSubmitting: false,
-            loader: false,
         }
     },
     methods: {
@@ -45,8 +46,8 @@ export default {
         addProduct(e) {
             e.preventDefault()
             this.isSubmitting = true
-            this.loader = true;
             this.errors = [];
+            return false;
             if (!this.name || !this.manufacture_year){
                 this.errors.push('Name and Manufacture Year fields are required.');
                 return false;
@@ -105,22 +106,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-    .loader {
-        position: absolute;
-        left: 37%;
-        top: 78%;
-        transform: translate(-50%, -50%);
-        border: 10px solid #f3f3f3; /* Light grey */
-        border-top: 16px solid #3498db; /* Blue */
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        animation: spin 2s linear infinite;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-</style> 
