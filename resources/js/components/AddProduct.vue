@@ -53,6 +53,8 @@ export default {
     methods: {
         onImageChange(e){
             this.image = e.target.files[0];
+            alert(this.image.extention);
+            return false;
         },
         addProduct(e) {
             e.preventDefault()

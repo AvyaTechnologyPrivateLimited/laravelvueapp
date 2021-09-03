@@ -41,8 +41,8 @@ export default {
     data() {
         return {
             product: {},
-            errors: {},
-            errors2: {},
+            errors: [],
+            errors2: [],
             image: '',
             loader: false,
         }
@@ -69,12 +69,12 @@ export default {
             this.isSubmitting = true
             this.errors = [];
             this.errors2 = [];
-            if (!this.name){
+            if (this.name == ''){
                 this.errors.push('Name field is required.');
                 this.isSubmitting = false
                 return false;
             }
-             if (!this.manufacture_year){
+             if (this.manufacture_year == ''){
                 this.errors.push('Manufacture Year field is required.');
                 this.isSubmitting = false
                 return false;

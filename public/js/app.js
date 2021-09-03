@@ -22224,6 +22224,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     onImageChange: function onImageChange(e) {
       this.image = e.target.files[0];
+      alert(this.image.extention);
+      return false;
     },
     addProduct: function addProduct(e) {
       var _this = this;
@@ -22337,8 +22339,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       product: {},
-      errors: {},
-      errors2: {},
+      errors: [],
+      errors2: [],
       image: '',
       loader: false
     };
@@ -22367,13 +22369,13 @@ __webpack_require__.r(__webpack_exports__);
       this.errors = [];
       this.errors2 = [];
 
-      if (!this.name) {
+      if (this.name == '') {
         this.errors.push('Name field is required.');
         this.isSubmitting = false;
         return false;
       }
 
-      if (!this.manufacture_year) {
+      if (this.manufacture_year == '') {
         this.errors.push('Manufacture Year field is required.');
         this.isSubmitting = false;
         return false;
