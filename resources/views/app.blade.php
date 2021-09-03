@@ -8,7 +8,11 @@
     <title>{{env('APP_NAME')}}</title>
     <link href="{{ mix('css/app.css') }}" type="text/css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  
+    <style>
+        .red {
+            color:red;
+        }
+    </style>
 </head>
 <body>
 @if (Auth::check())
@@ -31,5 +35,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="{{ mix('js/app.js') }}" type="text/javascript"></script>
+
 </body>
 </html>

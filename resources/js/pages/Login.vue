@@ -7,12 +7,18 @@
                     <li v-for="error in errors" :key="error.id">{{ error }}</li>
                 </div>
 
+                <div class="alert alert-danger" role="alert" v-if="errors2.length">
+                    <div v-for="(v, k) in errors2" :key="k">
+                        <p v-for="error in v" :key="error" >{{ error }}</p>
+                    </div>
+                </div>
+
                 <div class="card card-default">
                     <div class="card-header">Login</div>
                     <div class="card-body">
                         <form>
                             <div class="form-group row">
-                                <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
+                                <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address&nbsp;<span class="red">*</span></label>
                                 <div class="col-md-6">
                                     <input required id="email" type="email" class="form-control" v-model="email" 
                                            autofocus autocomplete="off">
@@ -20,9 +26,9 @@
                             </div><br>
 
                             <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Password&nbsp;<span class="red">*</span></label>
                                 <div class="col-md-6">
-                                    <input required id="password" type="password" class="form-control" v-model="password"
+                                    <input max="20" oncopy="return false" onpaste="return false" required id="password" type="password" class="form-control" v-model="password"
                                             autocomplete="off">
                                 </div>
                             </div><br>
@@ -48,20 +54,31 @@ export default {
         return {
             email: "",
             password: "",
-            errors: {}
+            errors: {},
+            errors2: {}
         }
     },
     methods: {
         handleSubmit(e) {
             e.preventDefault()
             this.errors = [];
+            this.errors2 = [];
             if (!this.email || !this.password) {
                 this.errors.push('All fields are required.');
                 return false;
             } 
+
             if (!this.validEmail(this.email)) {
                 this.errors.push('Valid email required.');
+                return false;
             }
+
+            if (this.password.length < 6 || this.password.length > 20) {
+                this.errors.push('Password field must be between 6 to 20 char long');
+                return false;
+            }
+            
+
             if (this.password.length > 0) {
                 this.$axios.get('/sanctum/csrf-cookie').then(response => {
                     this.$axios.post('api/login', {
@@ -72,7 +89,8 @@ export default {
                         if (response.data.success) {
                             this.$router.go('/dashboard')
                         } else {
-                            this.errors = response.data.message
+                            this.errors2.push(response.data.message)
+                            return false;
                         }
                     })
                     .catch(function (errors) {

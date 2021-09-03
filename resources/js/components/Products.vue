@@ -5,7 +5,7 @@
             {{ success }}
         </div>
         <div class="table-responsive">
-            <table class="table table-bordered table-responsive">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -13,20 +13,18 @@
                     <th>Manufacture Year</th>
                     <th>Image</th>
                     <th>Created At</th>
-                    <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="product in products" :key="product.id">
-                    <td>{{ product.id }}</td>
+                <tr v-for="(product,index) in products" :key="index">
+                    <td>{{ index+1 }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.manufacture_year }}</td>
                     <td>
                         <img class="full" v-bind:src="product.photo" width="80"  />
                     </td>
-                    <td>{{ product.created_at }}</td>
-                    <td>{{ product.updated_at }}</td>
+                    <td>{{ callDate(product.created_at) }}</td>
                     <td>
                         <div class="btn-group" role="group">
                             <router-link :to="{name: 'editproduct', params: { id: product.id }}" class="btn btn-primary">Edit
@@ -44,6 +42,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
     data() {
         return {
@@ -66,6 +65,10 @@ export default {
         })
     },
     methods: {
+        callDate(date) {
+          const date1 = new Date(date);
+            return moment(date1).format("DD/MM/YYYY");
+        },
         deleteProduct(id) {
             this.isSubmitting = true
             this.$axios.get('/sanctum/csrf-cookie').then(response => {

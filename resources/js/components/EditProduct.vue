@@ -9,11 +9,11 @@
                         <li v-for="error in errors" :key="error.id">{{ error }}</li>
                     </div>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Name&nbsp;<span class="red">*</span></label>
                         <input type="text" class="form-control" v-model="product.name">
                     </div><br>
                     <div class="form-group">
-                        <label>Manufacture Year</label>
+                        <label>Manufacture Year&nbsp;<span class="red">*</span></label>
                         <input @keypress="isNumber($event)" max="4" type="text" class="form-control" v-model="product.manufacture_year">
                     </div><br>
                    <div class="form-group">
@@ -58,16 +58,16 @@ export default {
             e.preventDefault()
             this.isSubmitting = true
             this.errors = [];
-            if (!this.product.name || !this.product.manufacture_year){
-                this.errors.push('Name and Manufactured Year fields are required.');
+            if (!this.name){
+                this.errors.push('Name field is required.');
                 this.isSubmitting = false
                 return false;
-            } 
-            if (this.product.manufacture_year.length > 4 || this.product.manufacture_year.length < 4) {
-                this.errors.push('Manufactured Year must be 4 digit long.');
+            }
+             if (!this.manufacture_year){
+                this.errors.push('Manufacture Year field is required.');
                 this.isSubmitting = false
-                return false;    
-            }  
+                return false;
+            }
 
             if (this.manufacture_year <= 1900 || this.manufacture_year >= 2021){
                 this.errors.push('Manufacture Year must be between 1990 and present');

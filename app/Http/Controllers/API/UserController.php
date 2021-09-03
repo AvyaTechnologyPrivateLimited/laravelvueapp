@@ -22,7 +22,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
 	        'name' => ['required'],
 	        'email' => ['required', 'email', 'unique:users,email'],
-	        'password' => ['required'],
+	        'password' => ['required', "min:6", "max:20"],
 	    ]);
 
 	    if($validator->fails()) {
@@ -53,7 +53,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
 	        'email' => ['required', 'email', 'exists:users,email'],
-	        'password' => ['required'],
+	        'password' => ['required', "min:6", "max:20"],
 	    ]);
 
 	    if($validator->fails()) {

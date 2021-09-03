@@ -9,11 +9,11 @@
                         <li v-for="error in errors" :key="error.id">{{ error }}</li>
                     </div>
                     <div class="form-group">
-                        <label>Name</label>
+                        <label>Name&nbsp;<span class="red">*</span></label>
                         <input type="text" name="name" class="form-control" v-model="name">
                     </div><br>
                     <div class="form-group">
-                        <label>Manufacture Year</label>
+                        <label>Manufacture Year&nbsp;<span class="red">*</span></label>
                         <input @keypress="isNumber($event)" max="4" min="4" name="manufacture_year" type="text" class="form-control" v-model="manufacture_year">
                     </div><br>
                     <div class="form-group">
@@ -47,8 +47,13 @@ export default {
             e.preventDefault()
             this.isSubmitting = true
             this.errors = [];
-            if (!this.name || !this.manufacture_year){
-                this.errors.push('Name and Manufacture Year fields are required.');
+            if (!this.name){
+                this.errors.push('Name field is required.');
+                this.isSubmitting = false
+                return false;
+            }
+             if (!this.manufacture_year){
+                this.errors.push('Manufacture Year field is required.');
                 this.isSubmitting = false
                 return false;
             }
