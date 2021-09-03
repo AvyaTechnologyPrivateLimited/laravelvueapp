@@ -24,7 +24,6 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
 	        'name' => ['required', 'unique:products,name'],
 	        'manufacture_year' => ['required'],
-            'image' => ['mimes:jpg,jpeg,png']
 	    ]);
 
 	    if($validator->fails()) {
@@ -34,7 +33,12 @@ class ProductController extends Controller
         
 
         if($request->file()) {
-            
+            $validator = Validator::make($request->all(), [
+                'image' => ['mimes:jpg,jpeg,png']
+            ]);
+            if($validator->fails()) {
+                return response()->json(['success' => false,'message' => $validator->messages()]);
+            }
             $imageName = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(public_path('upload'), $imageName);
             $file = 'upload/'.$imageName;
@@ -70,7 +74,6 @@ class ProductController extends Controller
         $validator = Validator::make($request->all(), [
 	        'name' => ['required'],
 	        'manufacture_year' => ['required'],
-            'image' => ['mimes:jpg,jpeg,png']
 	    ]);
 
 	    if($validator->fails()) {
@@ -78,7 +81,12 @@ class ProductController extends Controller
 	    }
 
         if($request->file()) {
-            
+            $validator = Validator::make($request->all(), [
+                'image' => ['mimes:jpg,jpeg,png']
+            ]);
+            if($validator->fails()) {
+                return response()->json(['success' => false,'message' => $validator->messages()]);
+            }
             $imageName = time().'.'.$request->image->getClientOriginalExtension();
             $request->image->move(public_path('upload'), $imageName);
             $file = 'upload/'.$imageName;
