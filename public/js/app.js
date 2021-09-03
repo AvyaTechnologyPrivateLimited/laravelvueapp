@@ -22230,7 +22230,6 @@ __webpack_require__.r(__webpack_exports__);
       e.preventDefault();
       this.isSubmitting = true;
       this.errors = [];
-      return false;
 
       if (!this.name || !this.manufacture_year) {
         this.errors.push('Name and Manufacture Year fields are required.');
@@ -22242,7 +22241,7 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      if (this.manufacture_year <= 1990 || this.manufacture_year >= 2021) {
+      if (this.manufacture_year < 1990 || this.manufacture_year > 2021) {
         this.errors.push('Manufacture Year must be between 1990 and present');
         return false;
       }
@@ -22347,7 +22346,7 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      if (this.manufacture_year <= 1990 || this.manufacture_year >= 2021) {
+      if (this.manufacture_year < 1990 || this.manufacture_year > 2021) {
         this.errors.push('Manufacture Year must be between 1990 and present');
         return false;
       }
