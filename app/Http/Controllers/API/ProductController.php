@@ -102,7 +102,9 @@ class ProductController extends Controller
     {
         $image = Product::where('id', '=', $id)->where('user_id', '=', Auth::id())->first();
         if($image->photo != 'upload/no-image.png') {
-            unlink(public_path('/').$image->photo);
+            if($image->photo != '') {
+                unlink(public_path('/').$image->photo);
+            }
         }
         $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id());
         $product->delete();

@@ -65,7 +65,7 @@ export default {
             }
 
             if (this.manufacture_year <= 1990 || this.manufacture_year >= 2021){
-                this.errors.push('Manufacture Year must between 1990 and present');
+                this.errors.push('Manufacture Year must be between 1990 and present');
                 return false;
             } 
 
