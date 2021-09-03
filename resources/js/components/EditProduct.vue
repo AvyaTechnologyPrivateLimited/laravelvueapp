@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div class="loader" v-if="loader"></div>
+        
         <h4 class="text-center">Edit Product</h4>
         <div class="row justify-content-center">
+            <div class="loader" v-if="loader"></div>
             <div class="col-md-6">
                 <form @submit.prevent="updateProduct" enctype="multipart/form-data">
                     <div class="alert alert-danger" role="alert" v-if="errors.length">
@@ -118,16 +119,16 @@ export default {
 }
 </script>
 <style scoped>
-    loader {
+    .loader {
         position: absolute;
-        left:50%;
-        top:50%;
+        left: 37%;
+        top: 78%;
         transform: translate(-50%, -50%);
         border: 10px solid #f3f3f3; /* Light grey */
         border-top: 16px solid #3498db; /* Blue */
         border-radius: 50%;
-        width: 75px;
-        height: 75px;
+        width: 45px;
+        height: 45px;
         animation: spin 2s linear infinite;
     }
 
@@ -135,4 +136,4 @@ export default {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-</style> 
+</style>  

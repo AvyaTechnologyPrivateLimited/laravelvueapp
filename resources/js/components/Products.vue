@@ -30,7 +30,7 @@
                     <div class="btn-group" role="group">
                         <router-link :to="{name: 'editproduct', params: { id: product.id }}" class="btn btn-primary">Edit
                         </router-link>
-                        <button class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>
+                        <button :disabled="isSubmitting" class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>
                     </div>
                 </td>
             </tr>
@@ -47,7 +47,8 @@ export default {
         return {
             products: [],
             'fullWidthImage': false,
-            success: []
+            success: [],
+            isSubmitting: false,
         }
     },
     created() {
@@ -64,6 +65,7 @@ export default {
     },
     methods: {
         deleteProduct(id) {
+            this.isSubmitting = true
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 this.$axios.delete(`/api/products/delete/${id}`)
                     .then(response => {
