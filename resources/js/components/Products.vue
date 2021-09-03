@@ -1,41 +1,43 @@
 <template>
-    <div>
+    <div >
         <h4 class="text-center">All Products</h4><br/>
         <div class="alert alert-success" role="alert" v-if="success.length">
             {{ success }}
         </div>
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Manufacture Year</th>
-                <th>Image</th>
-                <th>Created At</th>
-                <th>Updated At</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="product in products" :key="product.id">
-                <td>{{ product.id }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.manufacture_year }}</td>
-                <td>
-                    <img class="full" v-bind:src="product.photo" width="80"  />
-                </td>
-                <td>{{ product.created_at }}</td>
-                <td>{{ product.updated_at }}</td>
-                <td>
-                    <div class="btn-group" role="group">
-                        <router-link :to="{name: 'editproduct', params: { id: product.id }}" class="btn btn-primary">Edit
-                        </router-link>
-                        <button :disabled="isSubmitting" class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Manufacture Year</th>
+                    <th>Image</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="product in products" :key="product.id">
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.manufacture_year }}</td>
+                    <td>
+                        <img class="full" v-bind:src="product.photo" width="80"  />
+                    </td>
+                    <td>{{ product.created_at }}</td>
+                    <td>{{ product.updated_at }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <router-link :to="{name: 'editproduct', params: { id: product.id }}" class="btn btn-primary">Edit
+                            </router-link>
+                            <button :disabled="isSubmitting" class="btn btn-danger" @click="deleteProduct(product.id)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
         <button type="button" class="btn btn-info" @click="this.$router.push('/products/add')">Add Product</button>
     </div>
