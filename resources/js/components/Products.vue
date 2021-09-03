@@ -1,12 +1,16 @@
 <template>
     <div>
         <h4 class="text-center">All Products</h4><br/>
+        <div class="alert alert-success" role="alert" v-if="success.length">
+            {{ success }}
+        </div>
         <table class="table table-bordered">
             <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Manufacture Year</th>
+                <th>Image</th>
                 <th>Created At</th>
                 <th>Updated At</th>
                 <th>Actions</th>
@@ -17,6 +21,12 @@
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.manufacture_year }}</td>
+                <td>
+                    <img class="full" v-bind:src="product.photo" width="80"  />
+
+
+                    
+                </td>
                 <td>{{ product.created_at }}</td>
                 <td>{{ product.updated_at }}</td>
                 <td>
@@ -38,7 +48,9 @@
 export default {
     data() {
         return {
-            products: []
+            products: [],
+            'fullWidthImage': false,
+            success: []
         }
     },
     created() {
@@ -58,8 +70,13 @@ export default {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 this.$axios.delete(`/api/products/delete/${id}`)
                     .then(response => {
-                        let i = this.products.map(item => item.id).indexOf(id); // find index of your object
-                        this.products.splice(i, 1)
+                        if (response.data.success) {
+                            let i = this.products.map(item => item.id).indexOf(id); // find index of your object
+                            this.products.splice(i, 1)
+                            this.success = response.data.message
+                        } else {
+                            this.errors = response.data.message
+                        }
                     })
                     .catch(function (error) {
                         console.error(error);

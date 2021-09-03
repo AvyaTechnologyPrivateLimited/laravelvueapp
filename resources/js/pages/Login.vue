@@ -3,8 +3,8 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
 
-                <div class="alert alert-danger" role="alert" v-if="error !== null">
-                    {{ error }}
+                <div class="alert alert-danger" role="alert" v-if="errors.length">
+                    {{ errors }}
                 </div>
 
                 <div class="card card-default">
@@ -14,7 +14,7 @@
                             <div class="form-group row">
                                 <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" v-model="email" required
+                                    <input required id="email" type="email" class="form-control" v-model="email" required
                                            autofocus autocomplete="off">
                                 </div>
                             </div><br>
@@ -22,7 +22,7 @@
                             <div class="form-group row">
                                 <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" v-model="password"
+                                    <input required id="password" type="password" class="form-control" v-model="password"
                                            required autocomplete="off">
                                 </div>
                             </div><br>
@@ -48,12 +48,20 @@ export default {
         return {
             email: "",
             password: "",
-            error: null
+            errors: []
         }
     },
     methods: {
         handleSubmit(e) {
             e.preventDefault()
+            this.errors = [];
+            if (!this.email || !this.password) {
+                this.errors.push('All fields are required.');
+                return false;
+            } 
+            if (!this.validEmail(this.email)) {
+                this.errors.push('Valid email required.');
+            }
             if (this.password.length > 0) {
                 this.$axios.get('/sanctum/csrf-cookie').then(response => {
                     this.$axios.post('api/login', {
@@ -64,14 +72,18 @@ export default {
                         if (response.data.success) {
                             this.$router.go('/dashboard')
                         } else {
-                            this.error = response.data.message
+                            this.errors = response.data.message
                         }
                     })
-                    .catch(function (error) {
-                        console.error(error);
+                    .catch(function (errors) {
+                        console.error(errors);
                     });
                 })
             }
+        },
+        validEmail: function (email) {
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
         }
     },
     beforeRouteEnter(to, from, next) {

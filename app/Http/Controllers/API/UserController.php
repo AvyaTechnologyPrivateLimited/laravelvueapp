@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Exception;
+use Validator;
+
 
 class UserController extends Controller
 {
@@ -17,6 +19,16 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+	        'name' => ['required'],
+	        'email' => ['required', 'unique:users,email'],
+	        'password' => ['required'],
+	    ]);
+
+	    if($validator->fails()) {
+	        return response()->json(['success' => false,'message' => $validator->messages()]);
+	    }
+
         try {
             $user = new User();
             $user->name = $request->name;
@@ -39,6 +51,15 @@ class UserController extends Controller
      */
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+	        'email' => ['required', 'exists:users,email'],
+	        'password' => ['required'],
+	    ]);
+
+	    if($validator->fails()) {
+	        return response()->json(['success' => false,'message' => $validator->messages()]);
+	    }
+
         $credentials = [
             'email' => $request->email,
             'password' => $request->password

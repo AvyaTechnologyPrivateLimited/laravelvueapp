@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Auth;
+use Validator;
 
 class ProductController extends Controller
 {
@@ -19,7 +20,28 @@ class ProductController extends Controller
     // add product
     public function add(Request $request)
     {
-        $file = '';
+
+        $validator = Validator::make($request->all(), [
+	        'name' => ['required', 'unique:products,name'],
+	        'manufacture_year' => ['required'],
+	    ]);
+
+	    if($validator->fails()) {
+	        return response()->json(['success' => false,'message' => $validator->messages()]);
+	    }
+
+        
+
+        if($request->file()) {
+            
+            $imageName = time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('upload'), $imageName);
+            $file = 'upload/'.$imageName;
+        } else {
+            $file = 'upload/no-image.png';
+        }
+
+        
         $product = new Product([
             'user_id' => Auth::id(),
             'name' => $request->name,
@@ -28,7 +50,8 @@ class ProductController extends Controller
         ]);
         $product->save();
 
-        return response()->json('The product successfully added');
+        $message = 'The product successfully added';
+        return response()->json(['success' => true,'message' => $message]);
     }
 
     // edit product
@@ -41,18 +64,49 @@ class ProductController extends Controller
     // update product
     public function update($id, Request $request)
     {
-        $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id());
-        $product->update($request->all());
 
-        return response()->json('The product successfully updated');
+        //return $request->all();
+        $validator = Validator::make($request->all(), [
+	        'name' => ['required'],
+	        'manufacture_year' => ['required'],
+	    ]);
+
+	    if($validator->fails()) {
+	        return response()->json(['success' => false,'message' => $validator->messages()]);
+	    }
+
+        if($request->file()) {
+            
+            $imageName = time().'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('upload'), $imageName);
+            $file = 'upload/'.$imageName;
+        } else {
+            $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id())->first();
+            $file = $product->photo;
+        }
+
+        $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id());
+        $product->update([
+            'user_id' => Auth::id(),
+            'name' => $request->name,
+            'manufacture_year' => $request->manufacture_year,
+            'photo' => $file
+        ]);
+
+        $message = 'The product successfully updated';
+        return response()->json(['success' => true,'message' => $message]);
     }
 
     // delete product
     public function delete($id)
     {
+        $image = Product::where('id', '=', $id)->where('user_id', '=', Auth::id())->first();
+        unlink(public_path('/').$image->photo);
         $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id());
         $product->delete();
+        
 
-        return response()->json('The product successfully deleted');
+        $message = 'The product successfully deleted';
+        return response()->json(['success' => true,'message' => $message]);
     }
 }
