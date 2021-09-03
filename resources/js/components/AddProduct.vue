@@ -13,7 +13,7 @@
                     </div><br>
                     <div class="form-group">
                         <label>Manufacture Year</label>
-                        <input max="4" min="4" name="manufacture_year" type="text" class="form-control" v-model="manufacture_year">
+                        <input @keypress="isNumber($event)" max="4" min="4" name="manufacture_year" type="text" class="form-control" v-model="manufacture_year">
                     </div><br>
                     <div class="form-group">
                         <label>Image</label>
@@ -33,8 +33,7 @@ export default {
             product: {},
             errors: {},
             image: '',
-            name: '',
-            manufacture_year: ''
+            
         }
     },
     methods: {
@@ -48,11 +47,17 @@ export default {
                 this.errors.push('Name and Manufacture Year fields are required.');
                 return false;
             }
-            if (this.manufacture_year.length != 4){
-                this.errors.push('Manufacture Year must be 4 digit long');
+
+            if (this.manufacture_year.length > 4 || this.manufacture_year.length < 4) {
+                this.errors.push('Manufactured Year must be 4 digit long.');
                 return false;
             }
 
+            if (this.manufacture_year <= 1990 || this.manufacture_year >= 2021){
+                this.errors.push('Manufacture Year must between 1990 and present');
+                return false;
+            } 
+            
             let currentObj = this;
             const config = {
                 headers: { 'content-type': 'multipart/form-data' }
@@ -77,6 +82,15 @@ export default {
                         console.error(error);
                     });
             })
+        },
+        isNumber: function(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+            evt.preventDefault();;
+            } else {
+            return true;
+            }
         }
     },
     beforeRouteEnter(to, from, next) {
