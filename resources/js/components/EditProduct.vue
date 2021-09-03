@@ -1,7 +1,7 @@
 <template>
     <div>
         <h4 class="text-center">Edit Product</h4>
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-6">
                 <form @submit.prevent="updateProduct">
                     <div class="form-group">

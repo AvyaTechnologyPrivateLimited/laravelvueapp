@@ -34,7 +34,7 @@ class ProductController extends Controller
     // edit product
     public function edit($id)
     {
-        $product = Product::where('id', '=', $id)->where('user_id', '=', Auth::id())->get();
+        $product = Product::where('user_id', '=', Auth::id())->find($id);
         return response()->json($product);
     }
 
