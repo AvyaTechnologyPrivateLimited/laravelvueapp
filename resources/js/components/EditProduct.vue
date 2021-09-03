@@ -66,7 +66,7 @@ export default {
             if (this.product.manufacture_year.length > 4 || this.product.manufacture_year.length < 4) {
                 this.errors.push('Manufactured Year must be 4 digit long.');
                 return false;
-            }
+            }  
 
             if (this.manufacture_year <= 1990 || this.manufacture_year >= 2021){
                 this.errors.push('Manufacture Year must be between 1990 and present');
