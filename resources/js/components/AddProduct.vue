@@ -91,19 +91,7 @@ export default {
                 return false;
             }
 
-            // this.type = ['image/png', 'image/jpeg', 'image/jpeg'];
-            // if(!this.type.some(data => data.id === this.image.type)){
-            //     e.preventDefault();
-            //     this.errors.push('File type must be jpg, jpeg, png');
-            //     this.isSubmitting = false
-            //     return false;      
-            // }
-
-            if(this.image.type != 'image/png' || this.image.type != 'image/jpeg') {
-                this.errors.push('File type must be jpg, jpeg, png');
-                this.isSubmitting = false
-                return false;
-            }  
+           
             
             let currentObj = this;
             const config = {
