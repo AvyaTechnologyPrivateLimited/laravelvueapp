@@ -60,23 +60,28 @@ export default {
             this.errors = [];
             if (!this.product.name || !this.product.manufacture_year){
                 this.errors.push('Name and Manufactured Year fields are required.');
+                this.isSubmitting = false
                 return false;
             } 
             if (this.product.manufacture_year.length > 4 || this.product.manufacture_year.length < 4) {
                 this.errors.push('Manufactured Year must be 4 digit long.');
+                this.isSubmitting = false
                 return false;    
             }  
 
             if (this.manufacture_year <= 1900 || this.manufacture_year >= 2021){
                 this.errors.push('Manufacture Year must be between 1990 and present');
+                this.isSubmitting = false
                 return false;
             } 
 
             if (this.image.size > 1024 * 1024 * 2) {
                 e.preventDefault();
                 this.errors.push('File Size can not be taken more than 2MB');
+                this.isSubmitting = false
                 return false;
             }
+            
 
             let currentObj = this;
             const config = {
