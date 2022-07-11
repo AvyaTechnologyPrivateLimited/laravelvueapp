@@ -1,111 +1,97 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-
-                <div class="alert alert-danger" role="alert" v-if="errors.length">
-                    <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                </div>
-
-                <div class="alert alert-danger" role="alert" v-if="errors2.length">
-                    <div v-for="(v, k) in errors2" :key="k">
-                        <p v-for="error in v" :key="error" >
-                            <p v-for="i in error" :key="i">{{ i }}</p>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="card card-default">
-                    <div class="card-header">Login</div>
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address&nbsp;<span class="red">*</span></label>
-                                <div class="col-md-6">
-                                    <input required id="email" type="email" class="form-control" v-model="email" 
-                                           autofocus autocomplete="off">
-                                </div>
-                            </div><br>
-
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Password&nbsp;<span class="red">*</span></label>
-                                <div class="col-md-6">
-                                    <input max="20" oncopy="return false" onpaste="return false" required id="password" type="password" class="form-control" v-model="password"
-                                            autocomplete="off">
-                                </div>
-                            </div><br>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary" @click="handleSubmit">
-                                        Login
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="login-box" style="margin: auto;">
+  <!-- /.login-logo -->
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="#" class="h1"><b>Admin</b></a>
     </div>
+    <div class="card-body">
+      <p class="login-box-msg">Sign in to start your session</p>
+
+       <form action="" method="post" @submit.prevent="submit">
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Email" v-model="form.email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password" v-model="form.password" >
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Remember Me
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block" value=" Login ">Sign In</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <!-- /.social-auth-links -->
+
+      <p class="mb-1">
+        <a href="forgot-password.html">I forgot my password</a>
+      </p>
+    <!--   <p class="mb-0">
+        <a href="register.html" class="text-center">Register a new membership</a>
+      </p> -->
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
 </template>
 
+
 <script>
-export default {
-    data() {
-        return {
-            email: "",
-            password: "",
-            errors: [],
-            errors2: []
-        }
+import { mapActions } from 'vuex'
+   export default{
+    name:'Login',
+    data(){
+      return{
+         form:{
+            email:'',
+            password:''
+         },
+         showError: false,
+      }
     },
-    methods: {
-        handleSubmit(e) {
-            e.preventDefault()
-            this.errors = [];
-            this.errors2 = [];
-            if (!this.email || !this.password) {
-                this.errors.push('All fields are required.');
-                return false;
-            } 
 
-            if (!this.validEmail(this.email)) {
-                this.errors.push('Valid email required.');
-                return false;
-            }
+    methods:{
+      ...mapActions(["login"]),
 
-            if (this.password.length > 0) {
-                this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                    this.$axios.post('api/login', {
-                        email: this.email,
-                        password: this.password
-                    })
-                    .then(response => {
-                        if (response.data.success) {
-                            this.$router.go('/dashboard')
-                        } else {
-                            this.errors2.push(response.data.message)
-                            console.log(this.errors2);
-                            return false;
-                        }
-                    })
-                    .catch(function (errors) {
-                        console.error(errors);
-                    });
-                })
-            }
-        },
-        validEmail: function (email) {
-            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(email);
+        submit: function () {
+           this.$store.dispatch('login', this.form)
+          .then(() => this.$router.push('/dashboard'))
+          .catch(err => console.log(err))
         }
-    },
-    beforeRouteEnter(to, from, next) {
-        if (window.Laravel.isLoggedin) {
-            return next('dashboard');
-        }
-        next();
     }
-}
+
+
+   }
 </script>
+
+
+
+<style>
+
+.form-holder{
+   margin-top:20%;
+   margin-bottom:20%;
+}
+</style>

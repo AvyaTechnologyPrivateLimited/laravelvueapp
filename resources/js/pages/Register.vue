@@ -1,123 +1,99 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+  <div class="container">
+     <div class="row">
+        <div class="col-md-4 offset-md-4">
+           <div class="card form-holder">
+              <div class="card-body pt-4 pb-4">
+                 <h1 class="text-muted">Register</h1>
 
-                <div class="alert alert-danger" role="alert" v-if="errors.length">
-                    <li v-for="error in errors" :key="error.id">{{ error }}</li>
-                </div>
+                 <div v-if="showError">
+                    <span v-if="errors">
+                       <small v-for="error in errors" class="text-danger d-block">{{ error[0] }}</small>
+                    </span>
+                 </div>
 
-                <div class="alert alert-danger" role="alert" v-if="errors2.length">
-                    <div v-for="(v, k) in errors2" :key="k">
-                        <p v-for="error in v" :key="error" >
-                            <p v-for="i in error" :key="i">{{ i }}</p>
-                        </p>
+                 
+                 <form action="" method="post" @submit.prevent="submit">
+                    <div class="form-group">
+                       <label>Name</label>
+                       <input type="text" name="" class="form-control" placeholder="Name" v-model="form.name"/>
                     </div>
-                </div>
-
-                <div class="card card-default">
-                    <div class="card-header">Register</div>
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group row">
-                                <label for="name" class="col-sm-4 col-form-label text-md-right">Name&nbsp;<span class="red">*</span></label>
-                                <div class="col-md-6">
-                                    <input required id="name" type="email" class="form-control" v-model="name"
-                                           autofocus autocomplete="off">
-                                </div>
-                            </div><br>
-
-                            <div class="form-group row">
-                                <label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address&nbsp;<span class="red">*</span></label>
-                                <div class="col-md-6">
-                                    <input  id="email" type="email" class="form-control" v-model="email" required
-                                           autofocus autocomplete="off">
-                                </div>
-                            </div><br>
-
-                            <div class="form-group row">
-                                <label for="password" class="col-md-4 col-form-label text-md-right">Password&nbsp;<span class="red">*</span></label>
-                                <div class="col-md-6">
-                                    <input max="20" oncopy="return false" onpaste="return false" id="password" type="password" class="form-control" v-model="password"
-                                           required autocomplete="off">
-                                </div>
-                            </div><br>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-primary" @click="handleSubmit">
-                                        Register
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="form-group">
+                       <label>Email</label>
+                       <input type="email" name="" class="form-control" placeholder="Email" v-model="form.email" />
                     </div>
-                </div>
-            </div>
+                    
+                    <div class="form-group">
+                       <label>Password</label>
+                       <input type="password" name="" class="form-control" placeholder="Password" v-model="form.password" />
+                    </div>
+
+                    <div class="form-group">
+                       <label>Confirm Password</label>
+                       <input type="password" name="" class="form-control" placeholder="Confirm Password" v-model="form.password_confirmation" />
+                    </div>
+                    
+                    <div class="row">
+                       <div class="col-4 text-left">
+                       </div>
+                       <div class="col-8 text-right">
+                          <input type="submit" class="btn btn-primary pr-5 pl-5" value=" Register " />
+                       </div>
+                    </div>
+                 </form>
+              </div>
+           </div>
         </div>
-    </div>
+     </div>
+  </div>
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            name: "",
-            email: "",
-            password: "",
-            errors: [],
-            errors2: []
-        }
-    },
-    methods: {
-        handleSubmit(e) {
-            e.preventDefault()
-            this.errors = [];
-            this.errors2 = [];
-            if (!this.name || !this.email || !this.password) {
-                this.errors.push('All fields are required.');
-                return false;
-            } 
-            if (!this.validEmail(this.email)) {
-                this.errors.push('Valid email required.');
-            }
+	import { mapActions,mapGetters } from 'vuex'
+   export default{
+    	name:'Register',
+    	data(){
+    		return{
+    			form:{
+    				name:'',
+		      		email:'',
+		      		password:'',
+		      		password_confirmation:''
+		      	},
+		      	showError: false,
+    		}
+    	},
+    	computed: {
+	      ...mapGetters({ errors: "getError"}),
+	   },
+    	methods: {
+	    	...mapActions(["Register"]),
+			submit: function () {
+		        let data = {
+		          name: this.form.name,
+		          email: this.form.email,
+		          password: this.form.password,
+		          password_confirmation: this.form.password_confirmation,
+		        };
 
-            if (this.password.length < 6 || this.password.length > 20) {
-                this.errors.push('Password field must be between 6 to 20 char long');
-                return false;
-            }
+		        this.$store.dispatch('Register', data)
+		         .then(() => this.$router.push('/dashboard'))
+		         .catch(err =>{
+		            this.showError = true;
+		         })
+		    }
+		},
 
-            if (this.password.length > 0) {
-                axios.get('/sanctum/csrf-cookie').then(response => {
-                    axios.post('api/register', {
-                        name: this.name,
-                        email: this.email,
-                        password: this.password
-                    })
-                        .then(response => {
-                            if (response.data.success) {
-                                window.location.href = "/login"
-                            } else {
-                                this.errors2.push(response.data.message)
-                            return false;
-                            }
-                        })
-                        .catch(function (errors) {
-                            console.error(errors);
-                        });
-                })
-            }
-        },
-        validEmail: function (email) {
-            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return re.test(email);
-        }
-    },
-    beforeRouteEnter(to, from, next) {
-        if (window.Laravel.isLoggedin) {
-            return next('dashboard');
-        }
-        next();
-    }
-}
+   }
 </script>
+
+
+
+
+<style>
+   
+.form-holder{
+   margin-top:20%;
+   margin-bottom:20%;
+}
+</style>
